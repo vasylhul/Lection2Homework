@@ -6,24 +6,25 @@ import java.util.Scanner;
 public class NumberToTextConverter {
 
     public static void main(String[] args) {
-        try{
+        try {
             Scanner in = new Scanner(System.in);
             System.out.println("Enter integer value from 0 to 10000: ");
             int number = in.nextInt();
             if (number < 0 || number > 10000){
                 System.out.println("Only values from 0 to 10000 are allowed");
             }
-            else {
+            else if (number == 0){
+                System.out.println("zero");
+            } else {
                 System.out.println(convert(number));
             }
-
-        }catch (InputMismatchException ex){
+        } catch (InputMismatchException ex){
             System.out.println("Invalid input: only integer values are allowed");
         }
     }
 
-    public static String convert(int n) {
-        String[] fromZeroToNineteen = { " ", "one", "two", "three", "four",
+    public static String convert(int number) {
+        String[] fromZeroToNineteen = { "", "one", "two", "three", "four",
                 "five", "six", "seven", "eight", "nine", "ten", "eleven", "twelve",
                 "thirteen", "fourteen", "fifteen", "sixteen", "seventeen",
                 "eighteen", "nineteen" };
@@ -34,22 +35,22 @@ public class NumberToTextConverter {
                 "sixty", "seventy",	"eighty", "ninety"
         };
 
-        if (n < 0) {
-            return "Negative values are not allowed ";
+        if (number < 20) {
+            return fromZeroToNineteen[number];
+        } else if (number < 100) {
+            return tens[number / 10] + putSpaces(number, 10) + fromZeroToNineteen[number % 10];
+        } else if (number < 1000) {
+            return fromZeroToNineteen[number / 100] + " hundred" + putSpaces(number, 100) + convert(number % 100);
+        } else {
+            return convert(number / 1000) + " thousand" + putSpaces(number, 10000) + convert(number % 1000);
         }
+    }
 
-        if (n < 20) {
-            return fromZeroToNineteen[n];
-        }
-
-        if (n < 100) {
-            return tens[n / 10] + ((n % 10 != 0) ? " " : "") + fromZeroToNineteen[n % 10];
-        }
-        if (n < 1000) {
-            return fromZeroToNineteen[n / 100] + " hundred" + ((n % 100 != 0) ? " " : "") + convert(n % 100);
-        }
-        else {
-            return convert(n / 1000) + " thousand" + ((n % 10000 != 0) ? " " : "") + convert(n % 1000);
+    public static String putSpaces(int number, int divider) {
+        if (number % divider != 0) {
+            return " ";
+        } else {
+            return "";
         }
     }
 }
