@@ -47,10 +47,6 @@ public class NumberToTextConverter {
     }
 
     public static String putSpaces(int number, int divider) {
-        if (number % divider != 0) {
-            return " ";
-        } else {
-            return "";
-        }
+            return (number % divider != 0) ? " " : "";
     }
 }
