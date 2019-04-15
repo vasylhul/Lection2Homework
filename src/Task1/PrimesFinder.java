@@ -8,34 +8,42 @@ public class PrimesFinder {
         try {
             Scanner in = new Scanner(System.in);
             System.out.println("Enter start: ");
-            long start = in.nextLong();
+            long startRange = in.nextLong();
+            if (startRange < 0) {
+                System.out.println("Start range cannot be negative");
+                return;
+            }
             System.out.println("Enter end: ");
-            long end = in.nextLong();
-            findPrimes(start, end);
-        } catch (InputMismatchException ex){
+            long endRange = in.nextLong();
+            if (endRange < startRange || endRange < 0) {
+                System.out.println("Start range cannot be negative or less than start range");
+                return;
+            }
+            findPrimes(startRange, endRange);
+        } catch (InputMismatchException ex) {
             System.out.println("You entered incorrect values");
         }
     }
 
-    public static void findPrimes(long a, long b){
+    public static void findPrimes(long startRange, long endRange) {
         int count = 0;
-        for(long i = a; i <= b; i++){
+        for(long i = startRange; i <= endRange; i++) {
             if(isPrime(i)){
                 count++;
                 System.out.print(i + " ");
-                if(count == a){
+                if(count == startRange){
                     break;
                 }
             }
         }
     }
 
-    public static boolean isPrime(long n){
-        if(n == 0 || n == 1){
+    public static boolean isPrime(long possiblePrime) {
+        if(possiblePrime == 0 || possiblePrime == 1) {
             return false;
         }
-        for(int i = 2; i <= n/2; i++){
-            if(n % i == 0){
+        for(int i = 2; i <= possiblePrime/2; i++){
+            if(possiblePrime % i == 0){
                 return false;
             }
         }
